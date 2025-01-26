@@ -1,8 +1,8 @@
-from pydoc import pager
 
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Category, Slider
 from django.core.paginator import Paginator
+from .models import Product, Category, Slider
+from cart.forms import CartAddProductForm
 
 
 def index(request):
@@ -14,16 +14,6 @@ def index(request):
         "sliders": sliders
     }
     return render(request, "main/index.html", data)
-
-
-def product_details(request, product_slug, category_slug):
-    product = get_object_or_404(Product, slug=product_slug, available=True)
-
-    data = {
-        "product": product
-    }
-    return render(request, "main/product-details.html", data)
-
 
 
 def shop(request, category_slug=None):
@@ -42,8 +32,8 @@ def shop(request, category_slug=None):
     data = {
         "category": category,
         "categories": categories,
+        "products_qty": products,
         "products": current_page,
-        "products_qty": products
     }
 
     return render(request, "main/shop.html", data)
@@ -60,10 +50,21 @@ def category(request, category_slug):
     data = {
         "categories": categories,
         "category": category,
+        "products_qty": products,
         "products": current_page,
-        "products_qty": products
     }
     return render(request, "main/category.html", data)
+
+
+def product_details(request, category_slug, product_slug):
+    product = get_object_or_404(Product, slug=product_slug, available=True)
+    cart_product_form = CartAddProductForm
+
+    data = {
+        "product": product,
+        "cart_product_form": cart_product_form
+    }
+    return render(request, "main/product-details.html", data)
 
 
 def about(request):

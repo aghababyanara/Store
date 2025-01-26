@@ -13,17 +13,34 @@
 </head>
 
 <body>
-  <nav class="bg-emerald-800">
+  <nav class="bg-emerald-800 sticky top-0 z-[2]">
     <div class="container min-h-[90px] mx-auto px-4 py-2 flex justify-between items-center">
       <div>
         <h4>
           <a href="/" class="text-white text-2xl">StoreEVN</a>
         </h4>
       </div>
-      <div>
+      <div class="flex items-center gap-8">
+        <!-- Cart start -->
         <div>
-          <svg  viewBox="0 0 24 24" width="32" height="32"><path d="M24,3H4.242L4.2,2.649A3,3,0,0,0,1.222,0H0V2H1.222a1,1,0,0,1,.993.883L3.8,16.351A3,3,0,0,0,6.778,19H20V17H6.778a1,1,0,0,1-.993-.884L5.654,15H21.836Z"/><circle cx="7" cy="22" r="2"/><circle cx="17" cy="22" r="2"/></svg>
+          <a href="{% url 'cart:cart_detail' %}" class="relative">
+            <span class="flex justify-center items-center absolute right-[-12px] top-[-12px] bg-red-600 leading-0 text-white text-[10px] w-5 h-5 rounded-full">
+              {% with cart_quantity=cart|length %}
+                {% if cart_quantity > 0 %}
+                  {{cart_quantity}}
+                {% else %}
+                  0
+                {% endif %}
+              {% endwith %}
+            </span>
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <path class="fill-white" d="M24,3H4.242L4.2,2.649A3,3,0,0,0,1.222,0H0V2H1.222a1,1,0,0,1,.993.883L3.8,16.351A3,3,0,0,0,6.778,19H20V17H6.778a1,1,0,0,1-.993-.884L5.654,15H21.836Z"/>
+              <circle class="fill-white" cx="7" cy="22" r="2"/>
+              <circle class="fill-white" cx="17" cy="22" r="2"/>
+            </svg>
+          </a>
         </div>
+        <!-- Cart End -->
         <button data-mobileMenuBtn class="min-[768px]:hidden">
           <svg viewBox="0 0 490.667 490.667" width="24" height="24">
             <g class="fill-white">
@@ -36,24 +53,24 @@
             </g>
           </svg>
         </button>
-        <div
+        <div 
           data-menuContainer
           class="
             flex items-center jusfity-between gap-8
             max-[768px]:flex-col
-            max-[768px]:fixed
+            max-[768px]:fixed 
             max-[768px]:left-[-5000px]
-            max-[768px]:top-[90px]
-            max-[768px]:p-8
-            max-[768px]:w-full
+            max-[768px]:top-[90px] 
+            max-[768px]:p-8 
+            max-[768px]:w-full 
             max-[768px]:h-full
             max-[768px]:bg-emerald-800
           "
         >
-          <ul class="flex gap-4 max-[768px]:flex-col max-[768px]:text-center">
+          <ul class="flex gap-4 z-40 max-[768px]:flex-col max-[768px]:text-center">
             <li>
-              <a
-                href="{% url 'main:index' %}"
+              <a 
+                href="{% url 'main:index' %}" 
                 class="
                   hover:text-emerald-200 transition-color duration-300 text-xl
                   {% if request.get_full_path == '/' %} text-red-600 {% else %} text-white {% endif %}
@@ -63,8 +80,8 @@
               </a>
             </li>
             <li>
-              <a
-                href="{% url 'main:shop' %}"
+              <a 
+                href="{% url 'main:shop' %}" 
                 class="
                   hover:text-emerald-200 transition-color duration-300 text-xl
                   {% if request.get_full_path == '/shop/' %} text-red-600 {% else %} text-white {% endif %}
@@ -74,8 +91,8 @@
               </a>
             </li>
             <li>
-              <a
-                href="{% url 'main:about' %}"
+              <a 
+                href="{% url 'main:about' %}" 
                 class="
                   hover:text-emerald-200 transition-color duration-300 text-xl
                   {% if request.get_full_path == '/about/' %} text-red-600 {% else %} text-white {% endif %}
@@ -85,8 +102,8 @@
               </a>
             </li>
             <li>
-              <a
-                href="{% url 'main:contacts' %}"
+              <a 
+                href="{% url 'main:contacts' %}" 
                 class="
                   hover:text-emerald-200 transition-color duration-300 text-xl
                   {% if request.get_full_path == '/contacts/' %} text-red-600 {% else %} text-white {% endif %}
@@ -97,10 +114,10 @@
             </li>
           </ul>
           <div>
-            <a href="#"
+            <a href="#" 
               class="
-                bg-emerald-600
-                rounded-md px-4
+                bg-emerald-600 
+                rounded-md px-4 
                 py-2 text-emerald-200
                 transition-color
                 duration-300
@@ -117,10 +134,8 @@
   </nav>
 
   <header>
-    <div>
-      {% block header %}
-      {% endblock header %}
-    </div>
+    {% block header %}
+    {% endblock header %}
   </header>
 
   {% block content %}
